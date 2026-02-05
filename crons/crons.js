@@ -2,19 +2,35 @@ import cron from "node-cron";
 import { TicketNotification } from "../models/ticketNotification.model.js";
 import sendMail from "../services/email.service.js";
 
-cron.schedule("*/2 * * * *", async () => {
-  const notificationsToBeSent = await TicketNotification.find({
-    status: "PENDING",
-  });
+export const mailerCron = async () => {
+  console.log("Executing cron again");
+  cron.schedule("*/2 * * * *", async () => {
+    try {
+      const notifications = await TicketNotification.find({
+        status: "PENDING",
+      });
 
-  notificationsToBeSent.forEach((notification) => {
-    const mailData = {
-      from: "mba@support.com",
-      to: notification.receipentEmails,
-      subject: notification.subject,
-      text: notification.content,
-    };
+      for (const notification of notifications) {
+        const mailData = {
+          from: "mba@support.com",
+          to: notification.receipentEmails,
+          subject: notification.subject,
+          text: notification.content,
+        };
 
-    sendMail(process.env.EMAIL, process.env.EMAIL_PASS, mailData);
+        try {
+          sendMail(process.env.EMAIL, process.env.EMAIL_PASS, mailData);
+
+          notification.status = "SUCCESS";
+        } catch (err) {
+          console.error("Mail failed:", err);
+          notification.status = "FAILED";
+        }
+
+        await notification.save();
+      }
+    } catch (err) {
+      console.error("Cron job failed:", err);
+    }
   });
-});
+};

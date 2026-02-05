@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import connectToDB from "./config/db.js";
 import notificationRouter from "./routes/ticket.routes.js";
+import { mailerCron } from "./crons/crons.js";
 
 dotenv.config();
 
@@ -19,8 +20,9 @@ app.get("/working/notification/service", (req, res) => {
 });
 app.use("/notiservice/api/v1", notificationRouter);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, async () => {
   console.log(
     `Notification Service Server is listening on port ${process.env.PORT}`,
   );
+  await mailerCron();
 });

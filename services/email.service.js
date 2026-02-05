@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const sendMail = (email, password) => {
+const sendMail = (email, password, mailData) => {
   const transport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -10,10 +10,10 @@ const sendMail = (email, password) => {
   });
 
   transport.sendMail({
-    from: "mba@support.com",
-    to: "sanskarv2004@gmail.com",
-    subject: "Test email",
-    text: "Hey this is a test email",
+    from: mailData.from,
+    to: mailData.to,
+    subject: mailData.subject,
+    text: mailData.text,
   });
 };
 

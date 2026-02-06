@@ -3,8 +3,8 @@ import { TicketNotification } from "../models/ticketNotification.model.js";
 import sendMail from "../services/email.service.js";
 
 export const mailerCron = async () => {
-  console.log("Executing cron again");
   cron.schedule("*/2 * * * *", async () => {
+    console.log("Executing cron again");
     try {
       const notifications = await TicketNotification.find({
         status: "PENDING",

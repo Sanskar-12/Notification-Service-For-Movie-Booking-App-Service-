@@ -1,5 +1,5 @@
-import { STATUS_CODES } from "../../Movie_Booking_Backend_App/utils/constants.js";
 import { TicketNotification } from "../models/ticketNotification.model.js";
+import { STATUS_CODES } from "../utils/constants.js";
 
 export const createNotification = async (req, res) => {
   try {

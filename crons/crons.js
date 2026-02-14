@@ -12,7 +12,8 @@ export const mailerCron = async () => {
 
       for (const notification of notifications) {
         const mailData = {
-          from: "mba@support.com",
+          // from: "mba@support.com",
+          from: "Movie Booking <onboarding@resend.dev>",
           to: notification.receipentEmails,
           subject: notification.subject,
           text: notification.content,

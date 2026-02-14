@@ -1,4 +1,4 @@
-import { STATUS_CODES } from "../../Movie_Booking_Backend_App/utils/constants.js";
+import { STATUS_CODES } from "../utils/constants.js";
 import { requiredFieldsForCreateNotification } from "../utils/index.js";
 
 export const validateCreateNotificationRequest = (req, res, next) => {
